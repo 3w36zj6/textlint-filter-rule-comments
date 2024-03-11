@@ -1,8 +1,7 @@
 // LICENSE : MIT
 "use strict";
-const HTML_COMMENT_REGEXP = /<!--((?:.|\s)*?)-->/g;
-export function isHTMLComment(htmlString) {
-    return HTML_COMMENT_REGEXP.test(htmlString);
+export function isComment(string, commentFormatRegExp) {
+    return commentFormatRegExp.test(string);
 }
 
 /**
@@ -10,9 +9,9 @@ export function isHTMLComment(htmlString) {
  * @param {string} commentValue <!-- comment -->
  * @returns {string[]}
  */
-export function getValuesFromHTMLComment(commentValue) {
+export function getValuesFromComment(commentValue, commentFormatRegExp) {
     const results = [];
-    commentValue.replace(HTML_COMMENT_REGEXP, function(all, comment){
+    commentValue.replace(commentFormatRegExp, function(all, comment){
         results.push(comment);
     });
     return results;
