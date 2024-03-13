@@ -39,10 +39,16 @@ This is ignored.
          */
         [Syntax.Html](node){
             const nodeValue = getSource(node);
-            if (!isHTMLComment(nodeValue)) {
-                return;
-            }
-            const comments = getValuesFromHTMLComment(nodeValue);
+            const regExp = new RegExp([
+                String.raw`<!--\s*${enablingComment}*(?:.|\s)*?-->`,
+                String.raw`<!--\s*${disablingComment}*(?:.|\s)*?-->`,
+                String.raw`{/\*\s*${enablingComment}*(?:.|\s)*?\*/}`,
+                String.raw`{/\*\s*${disablingComment}*(?:.|\s)*?\*/}`
+            ].join("|"), "g");
+            const matches = nodeValue.matchAll(regExp);
+            const comments = Array.from(matches, m => {
+                return m[0].replace(/<!--|-->|{\/\*|\*\/}/g, "")
+            });
             comments.forEach(commentValue => {
                 if (commentValue.indexOf(enablingComment) !== -1) {
                     const configValue = commentValue.replace(enablingComment, "");
