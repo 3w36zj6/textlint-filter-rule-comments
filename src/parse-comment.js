@@ -1,6 +1,6 @@
 // LICENSE : MIT
 "use strict";
-const HTML_COMMENT_REGEXP = /(<!--((?:.|\s)*?)-->)|({\/\*((?:.|\s)*?)\*\/})/g;
+const HTML_COMMENT_REGEXP = /<!--((?:.|\s)*?)-->/g;
 export function isHTMLComment(htmlString) {
     return HTML_COMMENT_REGEXP.test(htmlString);
 }
